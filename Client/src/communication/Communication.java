@@ -5,8 +5,6 @@
  */
 package communication;
 
-import common.Request;
-import common.Response;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -45,7 +43,8 @@ public class Communication {
         this.in = new ObjectInputStream(this.socket.getInputStream());
     }
     
-    public Response login(Request request)throws Exception{
+    public Response send(Request request)throws Exception{
+        this.out.reset();
         this.out.writeObject(request);
         Response response = (Response) this.in.readObject();
         return response;

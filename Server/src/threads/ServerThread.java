@@ -5,6 +5,7 @@
  */
 package threads;
 
+import controller.Controller;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,9 +22,11 @@ public class ServerThread extends Thread{
     
     private ServerSocket serverSocket;
     private List<ClientHandler> clients;
-    public ServerThread() throws IOException {
+    private Controller controller;
+    
+    public ServerThread(Controller controller) throws IOException {
         this.clients = new ArrayList<>();
-        
+        this.controller = controller;
         try {
             //TODO ovde ubaci da se port cita iz property fajla
             this.serverSocket = new ServerSocket(1312);
@@ -42,7 +45,7 @@ public class ServerThread extends Thread{
         while(!this.serverSocket.isClosed()){
             try {
                 Socket socket = this.serverSocket.accept();
-                ClientHandler ch = new ClientHandler(socket,this);
+                ClientHandler ch = new ClientHandler(socket, this, controller);
                 System.out.println("Novi klijent se povezao");
                 ch.start();
             } catch (IOException ex) {
@@ -50,5 +53,11 @@ public class ServerThread extends Thread{
             }
         }
     }
+
+    public List<ClientHandler> getClients() {
+        return clients;
+    }
+    
+    
     
 }

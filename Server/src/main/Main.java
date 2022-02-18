@@ -5,7 +5,10 @@
  */
 package main;
 
-import view.ServerDashboard;
+import java.io.IOException;
+import java.sql.SQLException;
+import persistence.db.DBConnectionFactory;
+import view.FormMain;
 
 /**
  *
@@ -16,8 +19,8 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        new ServerDashboard().setVisible(true);
+    public static void main(String[] args){
+        new FormMain().setVisible(true);
     }
     
 }

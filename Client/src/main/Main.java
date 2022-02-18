@@ -11,14 +11,14 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import view.LoginForm;
+import view.forms.LoginForm;
 
 /**
  *
  * @author Bane
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         
         try {
             connect();
