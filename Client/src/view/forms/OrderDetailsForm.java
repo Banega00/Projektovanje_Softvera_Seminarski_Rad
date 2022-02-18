@@ -50,25 +50,25 @@ public class OrderDetailsForm extends javax.swing.JDialog {
                     case PREDJELO:
                         tableRow[1] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[1] += " x" + m.getNumberOfPortions();
+                            tableRow[1] = m.getNumberOfPortions() +"x " + tableRow[1];
                         }
                         break;
                     case GLAVNO_JELO:
                         tableRow[2] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[2] += " x" + m.getNumberOfPortions();
+                            tableRow[2] = m.getNumberOfPortions() +"x " + tableRow[2];
                         }
                         break;
                     case SALATA:
                         tableRow[3] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[3] += " x" + m.getNumberOfPortions();
+                            tableRow[3] = m.getNumberOfPortions() +"x " + tableRow[3];
                         }
                         break;
                     case DEZERT:
                         tableRow[4] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[4] += " x" + m.getNumberOfPortions();
+                            tableRow[4] = m.getNumberOfPortions() +"x " + tableRow[4];
                         }
                         break;
                 }
@@ -122,8 +122,10 @@ public class OrderDetailsForm extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tableOrders);
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Pordžbina za datum:");
 
+        btnCreateGroupOrder.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         btnCreateGroupOrder.setText("Kreiraj grupnu porudžbinu");
         btnCreateGroupOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,12 +142,12 @@ public class OrderDetailsForm extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(btnCreateGroupOrder)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                        .addGap(164, 164, 164)
+                        .addComponent(btnCreateGroupOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,10 +155,10 @@ public class OrderDetailsForm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(btnCreateGroupOrder)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCreateGroupOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

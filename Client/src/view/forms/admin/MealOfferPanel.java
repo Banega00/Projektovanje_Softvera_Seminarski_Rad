@@ -6,6 +6,7 @@
 package view.forms.admin;
 
 import controller.Controller;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -162,7 +163,12 @@ public class MealOfferPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCreateMealOfferActionPerformed
 
     private void btnChangeMealOfferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeMealOfferActionPerformed
-        changeMealOffer();
+        try {
+            changeMealOffer();
+        } catch (ParseException ex) {
+            Logger.getLogger(MealOfferPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Greška prilikom izmene jela");
+        }
     }//GEN-LAST:event_btnChangeMealOfferActionPerformed
 
     private void btnShowOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowOrdersActionPerformed
@@ -173,14 +179,14 @@ public class MealOfferPanel extends javax.swing.JPanel {
         new MealOfferForm(null, true, this, null);
     }
 
-    public void changeMealOffer() {
+    public void changeMealOffer() throws ParseException {
         int row = tableMealOffers.getSelectedRow();
         if (row < 0) {
             JOptionPane.showMessageDialog(this, "Izaberite ponudu jela iz tabele koju zelite da izmenite");
             return;
         }
-
-        if (mealOffers.get(row).getDate().before(new Date())) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        if (mealOffers.get(row).getDate().before(sdf.parse(sdf.format(new Date())))) {
             JOptionPane.showMessageDialog(this, "Nije dozvoljeno menjati ponudu jela iz prošlosti");
             return;
         }

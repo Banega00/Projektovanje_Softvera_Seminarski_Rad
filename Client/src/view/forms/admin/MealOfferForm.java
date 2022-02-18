@@ -55,33 +55,33 @@ public class MealOfferForm extends javax.swing.JDialog {
         this.list2.setModel(list2Model);
         this.list3.setModel(list3Model);
         this.list4.setModel(list4Model);
-//        try {
-//            this.meals = Controller.getInstance().getMeals();
-//            for (Meal m : this.meals) {
-//                cmbMeals.addItem(m);
-//            }
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja jela");
-//            Logger.getLogger(MealOfferForm.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        if (mo != null) {
-//            mealOffer = mo;
-//            txtDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(mealOffer.getDate()));
-//
-//            try {
-//                MealOffer moWithMeals = Controller.getInstance().getMealOffer(mealOffer.getId());
-//
-//                selectedMeals = moWithMeals.getMeals();
-//                mo.setMeals(selectedMeals);
-//                fillListsWithMeals();
-//            } catch (Exception ex) {
-//                Logger.getLogger(MealOfferForm.class.getName()).log(Level.SEVERE, null, ex);
-//                JOptionPane.showMessageDialog(this, "Greška prilikom ucitavanja jela iz ponude");
-//                this.dispose();
-//                return;
-//            }
-//        }
+        try {
+            this.meals = Controller.getInstance().getMeals();
+            for (Meal m : this.meals) {
+                cmbMeals.addItem(m);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom učitavanja jela");
+            Logger.getLogger(MealOfferForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (mo != null) {
+            mealOffer = mo;
+            txtDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(mealOffer.getDate()));
+
+            try {
+                MealOffer moWithMeals = Controller.getInstance().getMealOffer(mealOffer.getId());
+
+                selectedMeals = moWithMeals.getMeals();
+                mo.setMeals(selectedMeals);
+                fillListsWithMeals();
+            } catch (Exception ex) {
+                Logger.getLogger(MealOfferForm.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Greška prilikom ucitavanja jela iz ponude");
+                this.dispose();
+                return;
+            }
+        }
         setVisible(true);
     }
 
@@ -99,27 +99,39 @@ public class MealOfferForm extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         cmbMeals = new javax.swing.JComboBox();
         btnAddMeal = new javax.swing.JButton();
-        btnDeleteMeal = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         list1 = new javax.swing.JList();
-        jLabel3 = new javax.swing.JLabel();
+        btnSaveMealOffer = new javax.swing.JButton();
+        btnDeleteMeal = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         list2 = new javax.swing.JList();
+        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         list3 = new javax.swing.JList();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         list4 = new javax.swing.JList();
-        btnSaveMealOffer = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Unesite datum ponude jela u formatu (dd.mm.yyyy)");
 
+        txtDate.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        txtDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDateActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel6.setText("Jela");
 
+        cmbMeals.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+
+        btnAddMeal.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         btnAddMeal.setText("Dodaj");
         btnAddMeal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,35 +139,45 @@ public class MealOfferForm extends javax.swing.JDialog {
             }
         });
 
-        btnDeleteMeal.setText("Obrisi");
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel2.setText("Predjelo");
+
+        list1.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jScrollPane1.setViewportView(list1);
+
+        btnSaveMealOffer.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        btnSaveMealOffer.setText("Sačuvaj ponudu jela");
+        btnSaveMealOffer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveMealOfferActionPerformed(evt);
+            }
+        });
+
+        btnDeleteMeal.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        btnDeleteMeal.setText("Obriši");
         btnDeleteMeal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteMealActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Predjelo");
-
-        jScrollPane1.setViewportView(list1);
-
-        jLabel3.setText("Glavno jelo");
-
+        list2.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jScrollPane2.setViewportView(list2);
 
-        jLabel4.setText("Salata ");
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel3.setText("Glavno Jelo");
 
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel4.setText("Salata");
+
+        list3.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jScrollPane3.setViewportView(list3);
 
-        jLabel5.setText("Dezert");
-
+        list4.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jScrollPane4.setViewportView(list4);
 
-        btnSaveMealOffer.setText("Sacuvaj ponudu jela");
-        btnSaveMealOffer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveMealOfferActionPerformed(evt);
-            }
-        });
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel5.setText("Dezert");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,37 +186,37 @@ public class MealOfferForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
                     .addComponent(txtDate)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)))
                             .addComponent(jLabel6)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmbMeals, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)
-                                .addComponent(btnAddMeal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnDeleteMeal)))
-                        .addGap(0, 545, Short.MAX_VALUE)))
+                                .addComponent(cmbMeals, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAddMeal, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDeleteMeal, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(139, 139, 139)
+                .addGap(375, 375, 375)
                 .addComponent(btnSaveMealOffer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -204,81 +226,44 @@ public class MealOfferForm extends javax.swing.JDialog {
                 .addGap(8, 8, 8)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbMeals, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddMeal)
-                    .addComponent(btnDeleteMeal))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbMeals, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddMeal, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteMeal, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(97, 97, 97)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(btnSaveMealOffer)
-                .addContainerGap(277, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(btnSaveMealOffer, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddMealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMealActionPerformed
-        Meal m = (Meal) cmbMeals.getSelectedItem();
-        if (selectedMeals.contains(m)) {
-            JOptionPane.showMessageDialog(this, "Jelo " + m.getName() + " je vec dodato");
-            return;
-        }
-        selectedMeals.add(m);
-        switch (m.getType()) {
-            case PREDJELO:
-                list1Model.addElement(m);
-                break;
-            case GLAVNO_JELO:
-                list2Model.addElement(m);
-                break;
-            case SALATA:
-                list3Model.addElement(m);
-                break;
-            case DEZERT:
-                list4Model.addElement(m);
-                break;
-        }
+        addMeal();
     }//GEN-LAST:event_btnAddMealActionPerformed
-
-    private void btnDeleteMealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMealActionPerformed
-        Meal m = (Meal) cmbMeals.getSelectedItem();
-        selectedMeals.remove(m);
-        switch (m.getType()) {
-            case PREDJELO:
-                list1Model.removeElement(m);
-                break;
-            case GLAVNO_JELO:
-                list2Model.removeElement(m);
-                break;
-            case SALATA:
-                list3Model.removeElement(m);
-                break;
-            case DEZERT:
-                list4Model.removeElement(m);
-                break;
-        }
-    }//GEN-LAST:event_btnDeleteMealActionPerformed
 
     private void btnSaveMealOfferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveMealOfferActionPerformed
         String dateString = txtDate.getText().trim();
@@ -288,7 +273,7 @@ public class MealOfferForm extends javax.swing.JDialog {
         }
         try {
             Date date = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
-            if(date.before(new Date())){
+            if (date.before(new Date())) {
                 JOptionPane.showMessageDialog(this, "Datum ponude jela ne sme biti u prošlosti!");
                 return;
             }
@@ -310,16 +295,65 @@ public class MealOfferForm extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Datum ponude jela nije u validnom formatu!");
             Logger.getLogger(MealOfferForm.class.getName()).log(Level.SEVERE, null, ex);
             return;
-        }catch (SQLIntegrityConstraintViolationException ex){
+        } catch (SQLIntegrityConstraintViolationException ex) {
             JOptionPane.showMessageDialog(this, "Ponuda za datum " + txtDate.getText() + " vec postoji");
             Logger.getLogger(MealOfferForm.class.getName()).log(Level.SEVERE, null, ex);
             return;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Greška prilikom čuvanja ponude jela");
             Logger.getLogger(MealOfferForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSaveMealOfferActionPerformed
 
+    private void txtDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDateActionPerformed
+
+    private void btnDeleteMealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMealActionPerformed
+        deleteMeal();
+    }//GEN-LAST:event_btnDeleteMealActionPerformed
+
+    public void addMeal() {
+        Meal m = (Meal) cmbMeals.getSelectedItem();
+        if (selectedMeals.contains(m)) {
+            JOptionPane.showMessageDialog(this, "Jelo " + m.getName() + " je vec dodato");
+            return;
+        }
+        selectedMeals.add(m);
+        switch (m.getType()) {
+            case PREDJELO:
+                list1Model.addElement(m);
+                break;
+            case GLAVNO_JELO:
+                list2Model.addElement(m);
+                break;
+            case SALATA:
+                list3Model.addElement(m);
+                break;
+            case DEZERT:
+                list4Model.addElement(m);
+                break;
+        }
+    }
+
+    public void deleteMeal() {
+        Meal m = (Meal) cmbMeals.getSelectedItem();
+        selectedMeals.remove(m);
+        switch (m.getType()) {
+            case PREDJELO:
+                list1Model.removeElement(m);
+                break;
+            case GLAVNO_JELO:
+                list2Model.removeElement(m);
+                break;
+            case SALATA:
+                list3Model.removeElement(m);
+                break;
+            case DEZERT:
+                list4Model.removeElement(m);
+                break;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddMeal;
