@@ -6,6 +6,8 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import model.enums.MealType;
 
 /**
@@ -81,7 +83,7 @@ public class Meal extends BaseModel implements Serializable{
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name +" - " + this.type.toString();
     }
 
     @Override
@@ -137,5 +139,15 @@ public class Meal extends BaseModel implements Serializable{
     @Override
     public String getQueryCondition() {
         return "id=" + id;
+    }
+
+    @Override
+    public BaseModel getNewRecord(ResultSet rs) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setId(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

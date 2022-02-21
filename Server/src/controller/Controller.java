@@ -13,6 +13,7 @@ import model.MealOffer;
 import model.Order;
 import so.AbstractSO;
 import so.CreateAccountSO;
+import so.CreateGroupOrderSO;
 import so.DeactivateAccountSO;
 import so.EditMealOfferSO;
 import so.GetAllOrdersForMealOfferSO;
@@ -95,6 +96,11 @@ public class Controller {
     public List<Order> getAllOrders(MealOffer mealOffer) throws Exception {
         AbstractSO getAllOrdersSO = new GetAllOrdersForMealOfferSO();
         return (List<Order>) getAllOrdersSO.execute(mealOffer);
+    }
+
+    public String createGroupOrder(MealOffer mealOffer) throws Exception {
+        AbstractSO createGroupOrderSO = new CreateGroupOrderSO();
+        return (String) createGroupOrderSO.execute(mealOffer);
     }
 
 }

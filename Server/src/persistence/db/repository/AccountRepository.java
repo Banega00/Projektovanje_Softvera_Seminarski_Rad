@@ -72,7 +72,7 @@ public class AccountRepository implements DBRepository<Account, Long> {
     public Account getForLogin(String username, String password) throws SQLException, IOException {
         try {
             this.connection = DBConnectionFactory.getInstance().getConnection();
-            PreparedStatement ps = this.connection.prepareStatement("SELECT * FROM ACCOUNT a INNER JOIN employee e ON a.employeeId=e.id WHERE a.username=? AND a.password=?;");
+            PreparedStatement ps = this.connection.prepareStatement("SELECT * FROM ACCOUNT a LEFT JOIN employee e ON a.employeeId=e.id WHERE a.username=? AND a.password=?;");
             ps.setString(1, username);
             ps.setString(2, password);
             
@@ -80,8 +80,10 @@ public class AccountRepository implements DBRepository<Account, Long> {
             
             Account account = null;
             if(rs.next()){
-                account = new Account(rs.getLong("a.id"), rs.getString("a.username"), rs.getString("a.password"), rs.getBoolean("a.isAdmin"), rs.getBoolean("a.active"),
-                new Employee(rs.getLong("e.id"), rs.getString("e.ImePrezime"), rs.getString("e.JMBG"), rs.getString("e.email")));
+                account = new Account(rs.getLong("a.id"), rs.getString("a.username"), rs.getString("a.password"), rs.getBoolean("a.isAdmin"), rs.getBoolean("a.active"), null);
+                if(rs.getString("e.id")!=null){
+                    account.setEmployee(new Employee(rs.getLong("e.id"), rs.getString("e.ImePrezime"), rs.getString("e.JMBG"), rs.getString("e.email")));
+                }
             }
             return account;
         } catch (SQLException ex) {

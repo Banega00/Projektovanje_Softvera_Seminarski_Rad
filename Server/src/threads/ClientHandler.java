@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,8 +35,8 @@ public class ClientHandler extends Thread {
     private ObjectInputStream in;
     private ServerThread serverThread;
     private Controller controller;
-    private Account employeeAccount;
-
+    private Account userAccount;
+    private Date loginTime;
     ClientHandler(Socket socket, ServerThread serverThread, Controller controller) {
 
         try {
@@ -64,6 +65,7 @@ public class ClientHandler extends Thread {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
                 try {
                     this.socket.close();
+                    this.serverThread.getClients().remove(this);
                 } catch (IOException ex1) {
                     Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
                 }
@@ -99,7 +101,9 @@ public class ClientHandler extends Thread {
             case GET_EMPLOYEE_ORDER:
                 return this.getEmployeeOrder((Order) request.getData());
             case GET_ALL_ORDERS_FOR_MEAL_OFFER:
-                return this.getAllOrders((MealOffer)request.getData());
+                return this.getAllOrders((MealOffer) request.getData());
+            case CREATE_GROUP_ORDER:
+                return this.createGroupOrder((MealOffer) request.getData());
             default:
                 return new Response(ResponseType.ERROR, null, new UnsupportedOperationException());
         }
@@ -111,11 +115,14 @@ public class ClientHandler extends Thread {
 
             Account requestEmployee = (Account) request.getData();
             Account employeeAccount = this.controller.login(requestEmployee.getUsername(), requestEmployee.getPassword());
-            for(ClientHandler ch : this.serverThread.getClients()){
-                if(ch.getEmployeeAccount().getEmployee().getId() == employeeAccount.getId()) throw new Exception("Korisnik je već ulogovan");
+            for (ClientHandler ch : this.serverThread.getClients()) {
+                if (ch!=this && ch.getUserAccount()!=null && ch.getUserAccount().getId() == employeeAccount.getId()) {
+                    throw new Exception("Korisnik je već ulogovan");
+                }
             }
             response = new Response(ResponseType.SUCCESS, employeeAccount, null);
-            this.employeeAccount = employeeAccount;
+            this.userAccount = employeeAccount;
+            this.loginTime = new Date();
         } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
@@ -129,7 +136,7 @@ public class ClientHandler extends Thread {
         try {
             employees = this.controller.getEmployees();
             response = new Response(ResponseType.SUCCESS, employees, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -141,7 +148,7 @@ public class ClientHandler extends Thread {
         try {
             this.controller.createAcoount(account);
             response = new Response(ResponseType.SUCCESS, null, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -153,7 +160,7 @@ public class ClientHandler extends Thread {
         try {
             this.controller.deactivateAccount(account);
             response = new Response(ResponseType.SUCCESS, null, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -165,31 +172,31 @@ public class ClientHandler extends Thread {
         try {
             List<Meal> mealList = this.controller.getMeals();
             response = new Response(ResponseType.SUCCESS, mealList, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
         return response;
     }
-    
+
     private Response getMealOffers() {
         Response response;
         try {
             List<MealOffer> mealOffers = this.controller.getMealOffers();
             response = new Response(ResponseType.SUCCESS, mealOffers, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
         return response;
     }
-    
-    private Response getMealOffer(long mealId){
+
+    private Response getMealOffer(long mealId) {
         Response response;
         try {
             MealOffer mealOffer = this.controller.getMealOffer(mealId);
             response = new Response(ResponseType.SUCCESS, mealOffer, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -201,7 +208,7 @@ public class ClientHandler extends Thread {
         try {
             this.controller.saveMealOffer(mealOffer);
             response = new Response(ResponseType.SUCCESS, null, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -213,7 +220,7 @@ public class ClientHandler extends Thread {
         try {
             this.controller.editMealOffer(mealOffer);
             response = new Response(ResponseType.SUCCESS, null, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -225,7 +232,7 @@ public class ClientHandler extends Thread {
         try {
             this.controller.saveOrder(order);
             response = new Response(ResponseType.SUCCESS, null, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -237,7 +244,7 @@ public class ClientHandler extends Thread {
         try {
             Order o = this.controller.getEmployeeOrder(order);
             response = new Response(ResponseType.SUCCESS, o, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
@@ -249,19 +256,47 @@ public class ClientHandler extends Thread {
         try {
             List<Order> orders = this.controller.getAllOrders(mealOffer);
             response = new Response(ResponseType.SUCCESS, orders, null);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            response = new Response(ResponseType.ERROR, null, ex);
+        }
+        return response;
+    }
+    
+    private Response createGroupOrder(MealOffer mealOffer) {
+        Response response;
+        try {
+            String groupOrder = this.controller.createGroupOrder(mealOffer);
+            response = new Response(ResponseType.SUCCESS, groupOrder, null);
+        } catch (Exception ex) {
             ex.printStackTrace();
             response = new Response(ResponseType.ERROR, null, ex);
         }
         return response;
     }
 
-    public Account getEmployeeAccount() {
-        return employeeAccount;
+    public Account getUserAccount() {
+        return userAccount;
     }
 
-    public void setEmployeeAccount(Account employeeAccount) {
-        this.employeeAccount = employeeAccount;
+    public void setUserAccount(Account userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    void sendDisconnectEvent() {
+        try {
+            this.out.writeObject(new Request(Operation.DISCONNECT, null));
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

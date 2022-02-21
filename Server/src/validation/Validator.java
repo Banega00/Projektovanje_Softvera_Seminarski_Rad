@@ -6,6 +6,7 @@
 package validation;
 
 import exception.ValidationException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,8 +62,9 @@ public class Validator {
         return this;
     }
 
-    public Validator validateDate(Date date, String errorMessage) {
-        if (date.before(new Date())) {
+    public Validator validateDate(Date date, String errorMessage) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        if (date.before(sdf.parse(sdf.format(new Date())))) {
             this.validationErros.add(errorMessage);
         }
         return this;
@@ -72,6 +74,18 @@ public class Validator {
         if (!validationErros.isEmpty()) {
             throw new ValidationException(this.validationErros.stream().collect(Collectors.joining("\n")));
         }
+    }
+
+    public Validator validatePortNumber(String portString, String errorMessage) {
+        try {
+            int port = Integer.parseInt(portString);
+            if (port < 0 || port > 65535) {
+                this.validationErros.add(errorMessage);
+            }
+        } catch (Exception ex) {
+            this.validationErros.add(errorMessage);
+        }
+        return this;
     }
 
 }

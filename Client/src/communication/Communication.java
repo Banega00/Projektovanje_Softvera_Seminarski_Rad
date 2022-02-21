@@ -50,15 +50,21 @@ public class Communication {
         return response;
     }
 
-//    public Response getAllManufacturers(Request request) throws Exception {
-//        new Sender(socket).send(request);
-//        System.out.println("Zahtev getAllManufacturers je poslat...");
-//        return (Response) new Receiver(socket).receive();
-//    }
-//
-//    public Response addProduct(Request request) throws Exception {
-//        new Sender(socket).send(request);
-//        System.out.println("Zahtev addProduct je poslat...");
-//        return (Response) new Receiver(socket).receive();
-//    }
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
+    public void setOut(ObjectOutputStream out) {
+        this.out = out;
+    }
+
+    public ObjectInputStream getIn() {
+        return in;
+    }
+
+    public void setIn(ObjectInputStream in) {
+        this.in = in;
+    }
+    
+    
 }

@@ -5,10 +5,13 @@
  */
 package persistence.db;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+import main.ServerEnvVariables;
 
 /**
  *
@@ -32,14 +35,24 @@ public class DBConnectionFactory {
     public Connection getConnection() throws SQLException, IOException {
         if (conn == null || conn.isClosed()) {
             try {
-                //TODO read environment variables
-                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ps_database?serverTimezone=Europe/Prague", "root", "root");
-                System.out.println("Successful connection!");
+                Properties properties = new Properties();
+                properties.load(new FileInputStream(ServerEnvVariables.CONFIG_FILE_PATH));
+                String db_host = properties.getProperty(ServerEnvVariables.DB_HOST);
+                String db_port = properties.getProperty(ServerEnvVariables.DB_PORT);
+                String db_name = properties.getProperty(ServerEnvVariables.DB_NAME);
+                String user = properties.getProperty(ServerEnvVariables.DB_USERNAME);
+                String pass = properties.getProperty(ServerEnvVariables.DB_PASSWORD);
+                conn = DriverManager.getConnection("jdbc:mysql://" + db_host + ":" + db_port + "/" + db_name + "?serverTimezone=Europe/Prague&useSSL=false", user, pass);
             } catch (SQLException ex) {
-                System.out.println("Error while establishing connection.");
+                System.out.println("Error while establishing database connection.");
                 throw ex;
             }
         }
         return conn;
     }
+
+    public void testConnection(String dbHost, String dbPort, String dbName, String dbUsername, String dbPassword) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?serverTimezone=Europe/Prague&useSSL=false", dbUsername, dbPassword);
+        connection.close();
+    }   
 }

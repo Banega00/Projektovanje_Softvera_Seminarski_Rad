@@ -126,7 +126,7 @@ public class Controller {
     }
 
     public MealOffer getMealOffer(long id) throws Exception {
-        Request request = new Request(Operation.GET_MEAL_OFFER, id);
+            Request request = new Request(Operation.GET_MEAL_OFFER, id);
         try {
             Response response = Communication.getInstance().send(request);
             if(response.getResponseType() == ResponseType.ERROR) throw response.getError();
@@ -191,6 +191,18 @@ public class Controller {
             Response response = Communication.getInstance().send(request);
             if(response.getResponseType() == ResponseType.ERROR) throw response.getError();
             return (List<Order>) response.getData();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+    }
+
+    public String createGroupOrder(MealOffer mealOffer) throws Exception {
+        Request request = new Request(Operation.CREATE_GROUP_ORDER, mealOffer);
+        try {
+            Response response = Communication.getInstance().send(request);
+            if(response.getResponseType() == ResponseType.ERROR) throw response.getError();
+            return (String) response.getData();
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;

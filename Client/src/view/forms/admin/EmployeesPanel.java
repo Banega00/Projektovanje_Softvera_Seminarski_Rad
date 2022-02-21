@@ -24,9 +24,10 @@ public class EmployeesPanel extends javax.swing.JPanel {
      * Creates new form EmployeesPanel
      */
     private List<Employee> employees;
+
     public EmployeesPanel() {
         initComponents();
-        
+
         try {
             fillTable();
         } catch (Exception ex) {
@@ -34,13 +35,13 @@ public class EmployeesPanel extends javax.swing.JPanel {
             Logger.getLogger(EmployeesPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void fillTable() throws Exception {
         employees = Controller.getInstance().getEmployees();
         DefaultTableModel dtm = (DefaultTableModel) this.tableEmployees.getModel();
         int rows = dtm.getRowCount();
         if (rows >= 0) {
-            for (int i = rows-1; i >= 0; i--) {
+            for (int i = rows - 1; i >= 0; i--) {
                 dtm.removeRow(i);
             }
         }
@@ -51,7 +52,6 @@ public class EmployeesPanel extends javax.swing.JPanel {
             dtm.addRow(new Object[]{e.getImePrezime(), e.getJMBG(), e.getEmail(), username, accountStatus});
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,7 +67,7 @@ public class EmployeesPanel extends javax.swing.JPanel {
         btnCreateAccount = new javax.swing.JButton();
         btnDeactivateAccount = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(1000, 640));
+        setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         tableEmployees.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tableEmployees.setModel(new javax.swing.table.DefaultTableModel(
@@ -152,7 +152,7 @@ public class EmployeesPanel extends javax.swing.JPanel {
 
         Employee e = employees.get(row);
         if (e.getAccount() != null) {
-            JOptionPane.showMessageDialog(this, "Zaposleni vec poseduje nalog");
+            JOptionPane.showMessageDialog(this, "Zaposleni već poseduje nalog");
             return;
         }
 

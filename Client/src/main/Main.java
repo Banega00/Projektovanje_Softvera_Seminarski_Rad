@@ -31,7 +31,7 @@ public class Main {
     
     public static void connect() throws IOException{
         //TODO
-        Socket socket = new Socket("localhost",1312);
+        Socket socket = new Socket("localhost",3000);
         Communication.getInstance().setSocket(socket);
     }
 }

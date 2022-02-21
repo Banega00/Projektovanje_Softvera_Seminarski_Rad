@@ -7,13 +7,9 @@ package view.forms;
 
 import controller.Controller;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -50,25 +46,25 @@ public class OrderDetailsForm extends javax.swing.JDialog {
                     case PREDJELO:
                         tableRow[1] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[1] = m.getNumberOfPortions() +"x " + tableRow[1];
+                            tableRow[1] = m.getNumberOfPortions() + "x " + tableRow[1];
                         }
                         break;
                     case GLAVNO_JELO:
                         tableRow[2] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[2] = m.getNumberOfPortions() +"x " + tableRow[2];
+                            tableRow[2] = m.getNumberOfPortions() + "x " + tableRow[2];
                         }
                         break;
                     case SALATA:
                         tableRow[3] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[3] = m.getNumberOfPortions() +"x " + tableRow[3];
+                            tableRow[3] = m.getNumberOfPortions() + "x " + tableRow[3];
                         }
                         break;
                     case DEZERT:
                         tableRow[4] = m.getName();
                         if (m.getNumberOfPortions() > 1) {
-                            tableRow[4] = m.getNumberOfPortions() +"x " + tableRow[4];
+                            tableRow[4] = m.getNumberOfPortions() + "x " + tableRow[4];
                         }
                         break;
                 }
@@ -165,55 +161,25 @@ public class OrderDetailsForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateGroupOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateGroupOrderActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Izaberite putanju na kojoj želite da sačuvate grupnu porudžbinu");
-
-        int userSelection = fileChooser.showSaveDialog(this);
-        
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            try {
+        String grupaPorudzbina;
+        try {
+            grupaPorudzbina = Controller.getInstance().createGroupOrder(this.mealOffer);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Izaberite putanju na kojoj želite da sačuvate grupnu porudžbinu");
+            int userSelection = fileChooser.showSaveDialog(this);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
                 PrintWriter pw = new PrintWriter(fileToSave);
-
-                pw.println("Grupna porudžbina za dan " + this.mealOffer.getDate());
-                pw.println("_________________________________________________________________________");
-                pw.println("Jela:");
-                pw.println("_________________________________________________________________________");
-                List<Meal> distinctMeals = new ArrayList<>();
-                for (Order o : this.orders) {
-                    for (Meal m : o.getOrderedMeals()) {
-                        if(distinctMeals.contains(m)) continue;
-                        m.setNumberOfPortions(this.mealTotalPortions(m));
-                        distinctMeals.add(m);
-                    }
-                }
-
-                pw.printf("%-15s %-15s %-20s %-19s\n", "Jelo", "Broj porcija", "Cena", "Ukupna cena");
-                double totalPrice = 0;
-                for (Meal m : distinctMeals) {
-                    totalPrice += m.getPrice() * m.getNumberOfPortions();
-                    pw.printf("%-15s %-15d %.2f%-15s %.2f%-15s\n", m.getName(), m.getNumberOfPortions(), m.getPrice(), m.getCurrency().getShortname(), m.getPrice() * m.getNumberOfPortions(), m.getCurrency().getShortname());
-                }
-
-                pw.println("_________________________________________________________________________");
-                pw.println("Ukupna cena porudžbine: " + totalPrice);
+                pw.write(grupaPorudzbina);
                 pw.flush();
                 pw.close();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(OrderDetailsForm.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, "Greška prilikom upisivanja u fajl");
             }
+            }catch (Exception ex) {
+            Logger.getLogger(OrderDetailsForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Greška prilikom kreiranja grupne porudžbine");
+            return;
         }
     }//GEN-LAST:event_btnCreateGroupOrderActionPerformed
-    public int mealTotalPortions(Meal m) {
-        int i = 0;
-        for (Order o : this.orders) {
-            for (Meal meal : o.getOrderedMeals()) {
-                if(m.equals(meal)) i += meal.getNumberOfPortions();
-            }
-        }
-        return i;
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateGroupOrder;
     private javax.swing.JLabel jLabel1;

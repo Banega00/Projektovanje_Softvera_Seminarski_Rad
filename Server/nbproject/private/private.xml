@@ -5,15 +5,17 @@
         <group name="Druga grupa">
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/db/repository/MealRepository.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/SaveOrderSO.java</file>
-            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/GetAllOrdersSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/controller/Controller.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/SaveMealOfferSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/threads/ServerThread.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/GetMealOffersSO.java</file>
+            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/view/ServerConfigDialog.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/GetMealOfferSO.java</file>
+            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/view/FormMain.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/db/DBConnectionFactory.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/db/repository/OrderedMealRepository.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/LoginSO.java</file>
+            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/main/ServerEnvVariables.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/db/DBRepository.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/GetMealsSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/EditMealOfferSO.java</file>
@@ -23,11 +25,15 @@
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/CreateAccountSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/GetEmployeeOrderSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/db/repository/AccountRepository.java</file>
+            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/GetAllOrdersForMealOfferSO.java</file>
+            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/db/repository/Repository.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/GetEmployeesSO.java</file>
+            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/CreateGroupOrderSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/DeactivateAccountSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/so/AbstractSO.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/db/repository/MealOfferRepository.java</file>
             <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/persistence/Repository.java</file>
+            <file>file:/C:/Users/Bane/Desktop/MyFolder/Programiranje/Java/Seminarski%20PS/Server/src/validation/Validator.java</file>
         </group>
     </open-files>
 </project-private>

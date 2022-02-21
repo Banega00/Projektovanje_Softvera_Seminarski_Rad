@@ -9,6 +9,8 @@ import controller.Controller;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 import model.Account;
+import view.forms.admin.AdminMainForm;
+import view.forms.employee.EmployeeMainForm;
 
 /**
  *
@@ -142,7 +144,11 @@ public class LoginForm extends javax.swing.JFrame {
         try {
             controller.login(account);
 
-            new MainForm();
+            if(controller.getUserAccount().isIsAdmin()){
+                new AdminMainForm().setVisible(true);
+            }else{
+                new EmployeeMainForm().setVisible(true);
+            }
             this.dispose();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Neuspesno prijavljivanje", JOptionPane.ERROR_MESSAGE);

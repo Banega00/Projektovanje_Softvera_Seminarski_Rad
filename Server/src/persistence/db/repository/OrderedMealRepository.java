@@ -79,7 +79,7 @@ public class OrderedMealRepository implements DBRepository<Order, Long> {
 
     public Order getOrderedMeals(Order order) throws Exception {
         this.connection = DBConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = this.connection.prepareStatement("SELECT * FROM ORDERED_MEAL om INNER JOIN MEAL m ON om.meal_id=m.id INNER JOIN CURRENCY c ON c.id=m_currency_id WHERE om.meal_offer_id=? AND account_id=?;");
+        PreparedStatement ps = this.connection.prepareStatement("SELECT * FROM ORDERED_MEAL om INNER JOIN MEAL m ON om.meal_id=m.id INNER JOIN CURRENCY c ON c.id=m.currency_id WHERE om.meal_offer_id=? AND account_id=?;");
         ps.setLong(1, order.getMealOffer().getId());
         ps.setLong(2, order.getAccount().getId());
         ResultSet rs = ps.executeQuery();
@@ -94,7 +94,7 @@ public class OrderedMealRepository implements DBRepository<Order, Long> {
         return order;
     }
 
-    public Object getAllOrderForMealOffer(MealOffer mealOffer) throws Exception {
+    public List<Order> getAllOrderForMealOffer(MealOffer mealOffer) throws Exception {
         this.connection = DBConnectionFactory.getInstance().getConnection();
         PreparedStatement ps = this.connection.prepareStatement("SELECT * FROM ORDERED_MEAL om INNER JOIN MEAL m ON om.meal_id=m.id INNER JOIN CURRENCY c ON c.id=m.currency_id INNER JOIN ACCOUNT a ON a.id=om.account_id INNER JOIN EMPLOYEE e ON e.id=a.employeeId WHERE om.meal_offer_id=? ORDER BY a.id;");
         ps.setLong(1, mealOffer.getId());

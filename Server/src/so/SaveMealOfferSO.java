@@ -30,7 +30,7 @@ public class SaveMealOfferSO extends AbstractSO{
         MealOffer mo = (MealOffer) param;
         try {
             Validator.startValidation()
-                    .validateNotNull(mo.getDate(), "Korisničko ime je obavezno.")
+                    .validateNotNull(mo.getDate(), "Datum je obavezan")
                     .validateDate(mo.getDate(), "Datum ne sme biti u prošlosti").throwIfInvalide();
         } catch (ValidationException e) {
             throw e;

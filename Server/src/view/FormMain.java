@@ -7,9 +7,16 @@ package view;
 
 import controller.Controller;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import threads.ClientHandler;
 import threads.ServerThread;
 
 /**
@@ -25,6 +32,20 @@ public class FormMain extends javax.swing.JFrame {
 
     public FormMain() {
         initComponents();
+        setLocationRelativeTo(null);
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    fillTable();
+                } catch (Exception ex) {
+                    Logger.getLogger(FormMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }, 5000, 5000);
+
     }
 
     /**
@@ -37,11 +58,18 @@ public class FormMain extends javax.swing.JFrame {
     private void initComponents() {
 
         btnStartServer = new javax.swing.JButton();
+        lblStatus = new javax.swing.JLabel();
         btnStopServer = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnStartServer.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnStartServer.setText("Pokreni server");
         btnStartServer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -49,6 +77,10 @@ public class FormMain extends javax.swing.JFrame {
             }
         });
 
+        lblStatus.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        lblStatus.setText("Server je zaustavljen");
+
+        btnStopServer.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         btnStopServer.setText("Zaustavi server");
         btnStopServer.setEnabled(false);
         btnStopServer.addActionListener(new java.awt.event.ActionListener() {
@@ -57,7 +89,47 @@ public class FormMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Korisničko ime", "Vreme prijavljivanja"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 22)); // NOI18N
+        jLabel1.setText("Prijavljeni korisnici");
+
+        jMenu1.setText("Config");
+
+        jMenuItem1.setText("Server configuration");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,46 +138,69 @@ public class FormMain extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(btnStartServer)
-                        .addGap(47, 47, 47)
-                        .addComponent(btnStopServer))
+                        .addGap(42, 42, 42)
+                        .addComponent(btnStopServer, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
-                        .addComponent(jLabel1)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addGap(43, 43, 43)
+                        .addComponent(btnStartServer, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(lblStatus)))
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnStartServer)
-                    .addComponent(btnStopServer))
-                .addGap(80, 80, 80)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnStartServer, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnStopServer, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnStartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartServerActionPerformed
-        if (this.serverThread == null || !this.serverThread.isAlive()) {
-            try {
-                this.serverThread = new ServerThread(new Controller());
-                this.serverThread.start();
-
-                btnStartServer.setEnabled(false);
-                btnStopServer.setEnabled(true);
-            } catch (IOException ex) {
-                System.out.println("OVDE");
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska prilikom pokretanja servera", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        startServer();
+        lblStatus.setText("Server je pokrenut");
     }//GEN-LAST:event_btnStartServerActionPerformed
 
     private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
+        stopServer();
+        lblStatus.setText("Server je zaustavljen");
+        this.serverThread.disconnectClients();
+        this.serverThread = null;
+        //clear table
+        DefaultTableModel dtm = (DefaultTableModel) this.jTable1.getModel();
+            int rows = dtm.getRowCount();
+            if (rows >= 0) {
+                for (int i = rows - 1; i >= 0; i--) {
+                    dtm.removeRow(i);
+                }
+            }
+    }//GEN-LAST:event_btnStopServerActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            new ServerConfigDialog(this, true);
+        } catch (IOException ex) {
+            Logger.getLogger(FormMain.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void stopServer() {
         if (serverThread.getServerSocket() != null && serverThread.getServerSocket().isBound()) {
             try {
                 serverThread.getServerSocket().close();
@@ -116,11 +211,55 @@ public class FormMain extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska prilikom zaustavljanja servera", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnStopServerActionPerformed
+    }
 
+    private void startServer() {
+        if (this.serverThread == null || !this.serverThread.isAlive()) {
+            try {
+                this.serverThread = new ServerThread(new Controller(), this);
+                this.serverThread.start();
+
+                btnStartServer.setEnabled(false);
+                btnStopServer.setEnabled(true);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska prilikom pokretanja servera", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska prilikom povezivanja sa bazom", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Greska prilikom pokretanja servera", "Greska prilikom pokretanja servera", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public void fillTable() throws Exception {
+        if (this.serverThread != null) {
+            List<ClientHandler> clients = this.serverThread.getClients();
+            DefaultTableModel dtm = (DefaultTableModel) this.jTable1.getModel();
+            int rows = dtm.getRowCount();
+            if (rows >= 0) {
+                for (int i = rows - 1; i >= 0; i--) {
+                    dtm.removeRow(i);
+                }
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+            for (ClientHandler ch : clients) {
+                if (ch.getUserAccount() != null) {
+                    String loginTime = sdf.format(ch.getLoginTime());
+                    dtm.addRow(new Object[]{ch.getUserAccount().getUsername(), loginTime});
+                }
+            }
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStartServer;
     private javax.swing.JButton btnStopServer;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblStatus;
     // End of variables declaration//GEN-END:variables
 }
